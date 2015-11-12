@@ -124,7 +124,8 @@ public class GameFragment extends BaseFragment implements View.OnClickListener, 
     private void update_game_detail(PingPongGame ppg){
         if(ppg.getWinner()!=null) game_detail.setText(ppg.getWinner()+" win the game");
         else game_detail.setText(ppg.get_p1_name()+": "+String.valueOf(ppg.get_p1_win_count())+", "
-                +ppg.get_p2_name()+": "+String.valueOf(ppg.get_p2_win_count()));
+                +ppg.get_p2_name()+": "+String.valueOf(ppg.get_p2_win_count())+"\n"
+                +"Next One Serving: "+ppg.nextOne());
         p1s.setText(String.valueOf(ppg.get_p1_score()));
         p2s.setText(String.valueOf(ppg.get_p2_score()));
         player1.setText(ppg.get_p1_name());
