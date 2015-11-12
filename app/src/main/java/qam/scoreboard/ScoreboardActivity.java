@@ -1,11 +1,7 @@
 package qam.scoreboard;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,12 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.lang.reflect.Constructor;
-
-import qam.scoreboard.tools.FileOper;
 import qam.scoreboard.tools.SettingParam;
 
 public class ScoreboardActivity extends AppCompatActivity
@@ -98,6 +88,7 @@ public class ScoreboardActivity extends AppCompatActivity
         if (id == R.id.nav_game) {
             fragmentTransaction(fragment, id);
         } else if (id == R.id.nav_history) {
+            //TODO: add hitory fragment
             //fragmentTransaction(fragment.getFragmentId(), id);
         } else if (id == R.id.nav_setting) {
             fragmentTransaction(fragment, id);
@@ -113,7 +104,6 @@ public class ScoreboardActivity extends AppCompatActivity
             if(refid==R.id.nav_game) fragment = new GameFragment();
             else if(refid == R.id.nav_setting) fragment = new SettingFragment();
             fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
-            //Toast.makeText(this, "ttt", Toast.LENGTH_SHORT).show();
         }
     }
 }

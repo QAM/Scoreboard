@@ -1,15 +1,6 @@
 package qam.scoreboard.tools;
 
 import android.content.SharedPreferences;
-import android.os.Environment;
-import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 
 /**
  * Created by qam on 11/11/15.

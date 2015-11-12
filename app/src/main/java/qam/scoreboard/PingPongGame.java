@@ -1,20 +1,17 @@
 package qam.scoreboard;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import qam.scoreboard.tools.SettingParam;
 import java.util.Random;
 /**
  * Created by qam on 11/11/15.
  */
 public class PingPongGame {
-    SettingParam sp;
-    boolean deuce;
-    String winner;
-    Player player1;
-    Player player2;
-    int firstplayer;
+    private final SettingParam sp;
+    private boolean deuce;
+    private String winner;
+    private Player player1;
+    private Player player2;
+    private int firstplayer;
     private PingPongListener mListener;
 
     public interface PingPongListener {
@@ -47,7 +44,70 @@ public class PingPongGame {
 
     public void setListener(PingPongListener l){
         mListener = l;
+        mListener.onDataFinished();
     }
+
+    public void p1_add(){
+        add(player1);
+    }
+    public void p2_add(){
+        add(player2);
+    }
+    public void p1_delete(){
+        delete(player1);
+    }
+    public void p2_delete(){
+        delete(player2);
+    }
+
+    public void p1_set_name(String name){
+        if (winner != null) return;
+        player1.name=name;
+        mListener.onDataFinished();
+    }
+    public void p2_set_name(String name){
+        if (winner != null) return;
+        player2.name=name;
+        mListener.onDataFinished();
+    }
+
+    public String nextOne(){
+        int v=0;
+        if(deuce)
+            v=((player1.score-sp.np)+(player2.score-sp.np))%2;
+        else
+            v = ((player1.score+player2.score)/sp.np)%2;
+
+        if(v==0){
+            if(firstplayer==0) return player1.name;
+            else return player2.name;
+        }else{
+            if(firstplayer==0) return player2.name;
+            else return player1.name;
+        }
+    }
+    public String getWinner(){
+        return winner;
+    }
+    public String get_p1_name(){
+        return player1.name;
+    }
+    public String get_p2_name(){
+        return player2.name;
+    }
+    public int get_p1_win_count(){
+        return player1.win_count;
+    }
+    public int get_p2_win_count(){
+        return player2.win_count;
+    }
+    public int get_p1_score(){
+        return player1.score;
+    }
+    public int get_p2_score(){
+        return player2.score;
+    }
+
 
     private void reset_score() {
         player1.score = 0;
@@ -104,65 +164,4 @@ public class PingPongGame {
         }
         mListener.onDataFinished();
     }
-
-    public void p1_add(){
-        add(player1);
-    }
-    public void p2_add(){
-        add(player2);
-    }
-    public void p1_delete(){
-        delete(player1);
-    }
-    public void p2_delete(){
-        delete(player2);
-    }
-
-    public void p1_set_name(String name){
-        if (winner != null) return;
-        player1.name=name;
-    }
-    public void p2_set_name(String name){
-        if (winner != null) return;
-        player2.name=name;
-    }
-
-    public String nextOne(){
-        int v=0;
-        if(deuce)
-            v=((player1.score-sp.np)+(player2.score-sp.np))%2;
-        else
-            v = ((player1.score+player2.score)/sp.np)%2;
-
-        if(v==0){
-            if(firstplayer==0) return player1.name;
-            else return player2.name;
-        }else{
-            if(firstplayer==0) return player2.name;
-            else return player1.name;
-        }
-    }
-    public String getWinner(){
-        return winner;
-    }
-    public String get_p1_name(){
-        return player1.name;
-    }
-    public String get_p2_name(){
-        return player2.name;
-    }
-    public int get_p1_win_count(){
-        return player1.win_count;
-    }
-    public int get_p2_win_count(){
-        return player2.win_count;
-    }
-    public int get_p1_score(){
-        return player1.score;
-    }
-    public int get_p2_score(){
-        return player2.score;
-    }
-
-
 }

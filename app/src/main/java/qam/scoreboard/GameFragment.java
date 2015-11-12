@@ -3,7 +3,6 @@ package qam.scoreboard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,15 +90,13 @@ public class GameFragment extends BaseFragment implements View.OnClickListener, 
                 @Override
                 public void onFinishEditDialog(String inputText) {
                     ppg.p1_set_name(inputText);
-                    update_game_detail(ppg);
                 }
             });
         }else if(id==R.id.player2_name){
             showEditDialog(new EditNameDialog.EditNameDialogListener(){
                 @Override
                 public void onFinishEditDialog(String inputText) {
-                    ppg.p2_set_name(inputText);
-                    update_game_detail(ppg);
+                    ppg.p2_set_name(inputText);;
                 }
             });
         }else if(id==R.id.game_reset){
@@ -111,7 +108,6 @@ public class GameFragment extends BaseFragment implements View.OnClickListener, 
     private void reset_game(){
         ppg = new PingPongGame(player1.getText().toString(), player2.getText().toString(), sp);
         ppg.setListener(this);
-        update_game_detail(ppg);
     }
 
     private void showEditDialog(EditNameDialog.EditNameDialogListener l) {

@@ -3,14 +3,10 @@ package qam.scoreboard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-
 import qam.scoreboard.tools.FileOper;
 import qam.scoreboard.tools.SettingParam;
 
