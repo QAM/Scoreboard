@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp">
+
+    <TextView
+        android:text="winner condition"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        style="?android:listSeparatorTextViewStyle"
+        />
+    <RadioGroup
+        android:id="@+id/radio_group_wc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton android:id="@+id/radio_wc3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3" />
+        <RadioButton android:id="@+id/radio_wc5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5" />
+        <RadioButton android:id="@+id/radio_wc7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7" />
+    </RadioGroup>
+
+    <TextView
+        android:text="number of points to change serving right"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        style="?android:listSeparatorTextViewStyle"
+        />
+    <RadioGroup
+        android:id="@+id/radio_group_np"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton android:id="@+id/radio_np2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2" />
+        <RadioButton android:id="@+id/radio_np5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5" />
+    </RadioGroup>
+
+    <TextView
+        android:text="game winning score"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        style="?android:listSeparatorTextViewStyle"
+        />
+    <RadioGroup
+        android:id="@+id/radio_group_gw"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton android:id="@+id/radio_gw11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11" />
+        <RadioButton android:id="@+id/radio_gw21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="21" />
+    </RadioGroup>
+
+</LinearLayout>
