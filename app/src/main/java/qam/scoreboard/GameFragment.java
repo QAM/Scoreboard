@@ -17,7 +17,7 @@ import qam.scoreboard.tools.SettingParam;
 /**
  * Created by qam on 11/11/15.
  */
-public class GameFragment extends BaseFragment implements View.OnClickListener{
+public class GameFragment extends BaseFragment implements View.OnClickListener, PingPongGame.PingPongListener {
 
     private TextView p1s;
     private TextView p2s;
@@ -26,6 +26,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener{
     private TextView game_detail;
     private TextView player1;
     private TextView player2;
+    private PingPongGame ppg;
 
 
     @Override
@@ -51,7 +52,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener{
         player2 = (TextView) v.findViewById(R.id.player2_name);
         player1.setOnClickListener(this);
         player2.setOnClickListener(this);
-
+        v.findViewById(R.id.game_reset).setOnClickListener(this);
         p1s = (TextView) v.findViewById(R.id.player1_score);
         p2s = (TextView) v.findViewById(R.id.player2_score);
         p1u.setOnClickListener(this);
@@ -61,14 +62,16 @@ public class GameFragment extends BaseFragment implements View.OnClickListener{
         p1s.setText("0");
         p2s.setText("0");
         sharedpreferences = getActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
-        sp = FileOper.getSetting(sharedpreferences);
         TextView vwc = (TextView) v.findViewById(R.id.game_detail_wc);
         TextView vnp = (TextView) v.findViewById(R.id.game_detail_np);
         TextView vgw = (TextView) v.findViewById(R.id.game_detail_gw);
         game_detail = (TextView) v.findViewById(R.id.game_detail_whowin);
+        sp = FileOper.getSetting(sharedpreferences);
         vwc.setText("winning condition best of "+String.valueOf(sp.wc));
         vnp.setText("number of points to change serving right "+String.valueOf(sp.np));
-        vgw.setText("game winning score "+String.valueOf(sp.gw));
+        vgw.setText("game winning score " + String.valueOf(sp.gw));
+
+        reset_game();
         return v;
     }
 
@@ -76,35 +79,39 @@ public class GameFragment extends BaseFragment implements View.OnClickListener{
     public void onClick(View v) {
         int id = v.getId();
         if(id==R.id.player1_up){
-            int value = Integer.valueOf(p1s.getText().toString());
-            p1s.setText(String.valueOf(value+1));
+            ppg.p1_add();
         }else if(id==R.id.player1_down){
-            int value = Integer.valueOf(p1s.getText().toString());
-            p1s.setText(String.valueOf(value-1));
+            ppg.p1_delete();
         }else if(id==R.id.player2_up){
-            int value = Integer.valueOf(p2s.getText().toString());
-            p2s.setText(String.valueOf(value+1));
+            ppg.p2_add();
         }else if(id==R.id.player2_down){
-            int value = Integer.valueOf(p2s.getText().toString());
-            p2s.setText(String.valueOf(value-1));
+            ppg.p2_delete();
         }else if(id==R.id.player1_name){
             showEditDialog(new EditNameDialog.EditNameDialogListener(){
                 @Override
                 public void onFinishEditDialog(String inputText) {
-                    player1.setText(inputText);
-                    update_game_detail();
+                    ppg.p1_set_name(inputText);
+                    update_game_detail(ppg);
                 }
             });
         }else if(id==R.id.player2_name){
             showEditDialog(new EditNameDialog.EditNameDialogListener(){
                 @Override
                 public void onFinishEditDialog(String inputText) {
-                    player2.setText(inputText);
-                    update_game_detail();
+                    ppg.p2_set_name(inputText);
+                    update_game_detail(ppg);
                 }
             });
+        }else if(id==R.id.game_reset){
+            reset_game();
         }
 
+    }
+
+    private void reset_game(){
+        ppg = new PingPongGame(player1.getText().toString(), player2.getText().toString(), sp);
+        ppg.setListener(this);
+        update_game_detail(ppg);
     }
 
     private void showEditDialog(EditNameDialog.EditNameDialogListener l) {
@@ -114,8 +121,18 @@ public class GameFragment extends BaseFragment implements View.OnClickListener{
         editNameDialog.show(fm, "fragment_edit_name");
     }
 
-    private void update_game_detail(){
-
+    private void update_game_detail(PingPongGame ppg){
+        if(ppg.getWinner()!=null) game_detail.setText(ppg.getWinner()+" win the game");
+        else game_detail.setText(ppg.get_p1_name()+": "+String.valueOf(ppg.get_p1_win_count())+", "
+                +ppg.get_p2_name()+": "+String.valueOf(ppg.get_p2_win_count()));
+        p1s.setText(String.valueOf(ppg.get_p1_score()));
+        p2s.setText(String.valueOf(ppg.get_p2_score()));
+        player1.setText(ppg.get_p1_name());
+        player2.setText(ppg.get_p2_name());
     }
 
+    @Override
+    public void onDataFinished() {
+        update_game_detail(ppg);
+    }
 }
