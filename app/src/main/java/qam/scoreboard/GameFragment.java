@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,10 @@ public class GameFragment extends BaseFragment implements View.OnClickListener{
     private TextView p2s;
     private SharedPreferences sharedpreferences;
     private SettingParam sp;
+    private TextView game_detail;
+    private TextView player1;
+    private TextView player2;
+
 
     @Override
     protected int getFragmentId() {
@@ -42,6 +47,11 @@ public class GameFragment extends BaseFragment implements View.OnClickListener{
         ImageButton p1d = (ImageButton) v.findViewById(R.id.player1_down);
         ImageButton p2u = (ImageButton) v.findViewById(R.id.player2_up);
         ImageButton p2d = (ImageButton) v.findViewById(R.id.player2_down);
+        player1 = (TextView) v.findViewById(R.id.player1_name);
+        player2 = (TextView) v.findViewById(R.id.player2_name);
+        player1.setOnClickListener(this);
+        player2.setOnClickListener(this);
+
         p1s = (TextView) v.findViewById(R.id.player1_score);
         p2s = (TextView) v.findViewById(R.id.player2_score);
         p1u.setOnClickListener(this);
@@ -52,24 +62,60 @@ public class GameFragment extends BaseFragment implements View.OnClickListener{
         p2s.setText("0");
         sharedpreferences = getActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
         sp = FileOper.getSetting(sharedpreferences);
+        TextView vwc = (TextView) v.findViewById(R.id.game_detail_wc);
+        TextView vnp = (TextView) v.findViewById(R.id.game_detail_np);
+        TextView vgw = (TextView) v.findViewById(R.id.game_detail_gw);
+        game_detail = (TextView) v.findViewById(R.id.game_detail_whowin);
+        vwc.setText("winning condition best of "+String.valueOf(sp.wc));
+        vnp.setText("number of points to change serving right "+String.valueOf(sp.np));
+        vgw.setText("game winning score "+String.valueOf(sp.gw));
         return v;
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.player1_up){
+        int id = v.getId();
+        if(id==R.id.player1_up){
             int value = Integer.valueOf(p1s.getText().toString());
             p1s.setText(String.valueOf(value+1));
-        }else if(v.getId()==R.id.player1_down){
+        }else if(id==R.id.player1_down){
             int value = Integer.valueOf(p1s.getText().toString());
             p1s.setText(String.valueOf(value-1));
-        }else if(v.getId()==R.id.player2_up){
+        }else if(id==R.id.player2_up){
             int value = Integer.valueOf(p2s.getText().toString());
             p2s.setText(String.valueOf(value+1));
-        }else if(v.getId()==R.id.player2_down){
+        }else if(id==R.id.player2_down){
             int value = Integer.valueOf(p2s.getText().toString());
             p2s.setText(String.valueOf(value-1));
+        }else if(id==R.id.player1_name){
+            showEditDialog(new EditNameDialog.EditNameDialogListener(){
+                @Override
+                public void onFinishEditDialog(String inputText) {
+                    player1.setText(inputText);
+                    update_game_detail();
+                }
+            });
+        }else if(id==R.id.player2_name){
+            showEditDialog(new EditNameDialog.EditNameDialogListener(){
+                @Override
+                public void onFinishEditDialog(String inputText) {
+                    player2.setText(inputText);
+                    update_game_detail();
+                }
+            });
         }
 
     }
+
+    private void showEditDialog(EditNameDialog.EditNameDialogListener l) {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        EditNameDialog editNameDialog = EditNameDialog.newInstance("Input Name");
+        editNameDialog.setListener(l);
+        editNameDialog.show(fm, "fragment_edit_name");
+    }
+
+    private void update_game_detail(){
+
+    }
+
 }

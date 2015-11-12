@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Constructor;
@@ -26,6 +27,7 @@ public class ScoreboardActivity extends AppCompatActivity
 
     FragmentManager fm;
     private SettingParam sp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,9 @@ public class ScoreboardActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fm = getSupportFragmentManager();
+        fragmentTransaction(null, R.id.nav_game);
+
+
     }
 
     @Override

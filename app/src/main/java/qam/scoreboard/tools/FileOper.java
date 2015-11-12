@@ -26,7 +26,7 @@ public class FileOper {
 
     public static SettingParam getSetting(SharedPreferences sh){
         SettingParam sp;
-        sp = new SettingParam(sh.getInt("wc", 3), sh.getInt("np", 3), sh.getInt("gw", 3));
+        sp = new SettingParam(sh.getInt("wc", 3), sh.getInt("np", 5), sh.getInt("gw", 11));
         return sp;
     }
 }
